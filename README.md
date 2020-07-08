@@ -13,7 +13,7 @@ int main() {
 	fileWatchar.addPath("C:/Users/CYS/Downloads/temp2.txt"); // Add path that want to chage(Created, Modified, Erased)
 	fileWatchar.addPath("C:/Users/CYS/Downloads/temp1.txt");
 
-	fileWatchar.start([](std::filesystem::path path, watcher::FileStatus status) { // callback
+	fileWatchar.start([](std::filesystem::path path, watcher::FileStatus status) { // Callback
 		switch (status)
 		{
 		case watcher::FileStatus::Created:
@@ -30,7 +30,12 @@ int main() {
 			break;
 		}
 		});
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+	fileWatchar.addPath("C:/Users/CYS/Downloads/temp.txt"); // Support after start(). also thread-safe. start watching
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+	fileWatchar.removePath("C:/Users/CYS/Downloads/temp.txt"); // Support after start(). also thread-safe. stop watching
 
+	std::this_thread::sleep_for(std::chrono::milliseconds(10000000)); // Do something
 }
 ```
 
