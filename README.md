@@ -1,7 +1,13 @@
 # FileWatcher
-FileWatcher is simple file change detection that based c++17
+FileWatcher is simple file/dir change detection that based c++17
 
-This F
+## Feature
+ - File&Directory change detection (Directory only support inner file create/remove -> Modified status for dir)
+ - Cross platform.
+ - Thread safe.
+ - 3 File status(Created, Modified, Erased).
+ - Support relative/absolute path.
+ - Very easy to use & simple. 
 
 ### sample code 
 
@@ -107,7 +113,6 @@ int main() {
 	std::this_thread::sleep_for(1000s); // Do something
 }
 ```
-
 
 ### sample image
 
