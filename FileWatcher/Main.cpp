@@ -48,7 +48,7 @@ void writeData(std::filesystem::path path) {
 	std::ofstream ofs(path, std::ios::app);
 	ofs.close();
 
-	std::this_thread::sleep_for(5s);
+	std::this_thread::sleep_for(2s);
 
 	std::ofstream ofs2(path, std::ios::app);
 	ofs2 << "this is some text in the new file\n";
@@ -75,7 +75,8 @@ int main() {
 
 	// Support each callback
 	fileWatchar.addPath(temp2, eachCallback);
-	fileWatchar.addPath("C:/Users/CYS/Downloads/temp3.txt", eachCallback); // It's ok to write string
+	fileWatchar.addPath("../FileWatcher/Main.cpp");//x86 // It's ok to write string & relative path
+	fileWatchar.addPath("../../FileWatcher/Main.cpp");//x64 // It's ok to write string & relative path
 
 	fileWatchar.start(callback); // Global Callback
 
