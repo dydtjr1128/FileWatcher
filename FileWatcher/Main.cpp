@@ -87,7 +87,11 @@ int main() {
 	writeData(temp);
 	std::this_thread::sleep_for(5s);
 	fileWatchar.removePath(temp);
-	writeData(temp); // not write
+	writeData(temp); // not watching
+
+	std::filesystem::remove_all(temp);
+	std::filesystem::remove_all(temp1);
+	std::filesystem::remove_all(temp2);
 
 	//fileWatchar.stop(); // not essential
 
