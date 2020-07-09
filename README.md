@@ -1,6 +1,8 @@
 # FileWatcher
 FileWatcher is simple file change detection that based c++17
 
+This F
+
 ### sample code 
 
 ```cpp
@@ -10,7 +12,9 @@ FileWatcher is simple file change detection that based c++17
 
 int main() {
 	watcher::FileWatchar fileWatchar;
-	fileWatchar.addPath("C:/Users/CYS/Downloads/temp2.txt"); // Add path that want to chage(Created, Modified, Erased)
+	// Add path that want to chage(Created, Modified, Erased)
+	// Support watching that not created file.
+	fileWatchar.addPath("C:/Users/CYS/Downloads/temp2.txt"); 
 	fileWatchar.addPath("C:/Users/CYS/Downloads/temp1.txt");
 
 	fileWatchar.start([](std::filesystem::path path, watcher::FileStatus status) { // Callback
