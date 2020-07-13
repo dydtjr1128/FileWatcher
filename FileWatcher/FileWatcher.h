@@ -10,25 +10,30 @@
 #include <unordered_set>
 
 namespace watcher {
+
 	namespace {
-		constexpr int kDefaultFileWatchingTime = 500;
+		constexpr int kDefaultFileCheckingTime = 500;
 	}
+
 	enum class FileStatus {
 		Created,
 		Modified,
 		Erased,
 	};
 
+	using Callback = std::function<void(std::filesystem::path, FileStatus)>;
+
 	class FileWatchar {
 	public:
 		FileWatchar() :running_(false) {}
-		~FileWatchar() {
+		virtual ~FileWatchar() {
 			stop();
 		}
 
-		void start(std::function<void(std::filesystem::path, FileStatus)> globalCallback = nullptr) {
-			if (running_.exchange(true) == true)
+		void start(Callback globalCallback = nullptr) {
+			if (running_.exchange(true) == true) {
 				return;
+			}
 
 			if (globalCallback != nullptr) {
 				std::lock_guard lock(watchingMutex_);
@@ -40,7 +45,7 @@ namespace watcher {
 
 			watchingThread_ = std::thread([&]() {
 				while (running_) {
-					std::this_thread::sleep_for(std::chrono::milliseconds(kDefaultFileWatchingTime));
+					std::this_thread::sleep_for(std::chrono::milliseconds(kDefaultFileCheckingTime));
 
 					std::lock_guard lock(watchingMutex_);
 
@@ -51,15 +56,13 @@ namespace watcher {
 						if (std::filesystem::exists(path)) {
 							if (data.time == std::filesystem::file_time_type::min()) {
 								DoCallback(data.callbacks, path, FileStatus::Created);
-							}
-							else if (data.time != std::filesystem::last_write_time(path)) {
+							} else if (data.time != std::filesystem::last_write_time(path)) {
 								DoCallback(data.callbacks, path, FileStatus::Modified);
 							}
 							data.time = std::filesystem::last_write_time(path);
-						}
-						else if (data.time != std::filesystem::file_time_type::min()) {
-							data.time = std::filesystem::file_time_type::min();
+						} else if (data.time != std::filesystem::file_time_type::min()) {
 							DoCallback(data.callbacks, path, FileStatus::Erased);
+							data.time = std::filesystem::file_time_type::min();
 						}
 					}
 				}
@@ -73,24 +76,24 @@ namespace watcher {
 			file_watching_map_.clear();
 		}
 
-		void addPath(std::filesystem::path path, std::function<void(std::filesystem::path, FileStatus)> function = nullptr) {
+		void addPath(std::filesystem::path path, Callback callback = nullptr) {
 			std::lock_guard lock(watchingMutex_);
 			Data data;
 			if (std::filesystem::exists(path)) {
 				data.time = std::filesystem::last_write_time(path);
-			}
-			else {
+			} else {
 				data.time = std::filesystem::file_time_type::min();
 			}
-			file_watching_map_.emplace(path.string(), data);
 
-			auto& callbacks = file_watching_map_[path.string()].callbacks;
-
-			if (function != nullptr)
-				callbacks.push_back(function);
-			if (globalCallback_ != nullptr) {
-				callbacks.push_back(globalCallback_);
+			if (callback != nullptr) {
+				data.callbacks.push_back(callback);
 			}
+
+			if (globalCallback_ != nullptr) {
+				data.callbacks.push_back(globalCallback_);
+			}
+
+			file_watching_map_.emplace(path.string(), data);
 		}
 
 		void removePath(std::filesystem::path path) {
@@ -105,11 +108,11 @@ namespace watcher {
 		class Data {
 		public:
 			std::filesystem::file_time_type time;
-			std::vector<std::function<void(std::filesystem::path, FileStatus)>> callbacks;
+			std::vector<Callback> callbacks;
 		private:
 		};
 
-		void DoCallback(const std::vector<std::function<void(std::filesystem::path, FileStatus)>> callbacks, const std::filesystem::path& path, const FileStatus& status) const {
+		void DoCallback(const std::vector<Callback> callbacks, const std::filesystem::path& path, const FileStatus& status) const {
 			for (auto& callback : callbacks) {
 				callback(path, status);
 			}
@@ -118,7 +121,7 @@ namespace watcher {
 		std::thread watchingThread_;
 		std::mutex watchingMutex_;
 		std::unordered_map<std::string, Data> file_watching_map_;
-		std::function<void(std::filesystem::path, FileStatus)> globalCallback_ = nullptr;
+		Callback globalCallback_ = nullptr;
 
 		std::atomic<bool> running_;
 	};
