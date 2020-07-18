@@ -1,3 +1,8 @@
+![issues](https://img.shields.io/github/issues/dydtjr1128/FileWatcher)
+![forks](https://img.shields.io/github/forks/dydtjr1128/FileWatcher)
+![stars](https://img.shields.io/github/stars/dydtjr1128/FileWatcher)
+![license](https://img.shields.io/github/license/dydtjr1128/FileWatcher)
+
 # FileWatcher
 FileWatcher is simple file/dir change detection that based c++17
 
@@ -70,8 +75,6 @@ void writeData(std::filesystem::path path) {
 }
 
 int main() {
-
-
 	watcher::FileWatchar fileWatchar;
 
 	std::filesystem::path temp("C:/Users/CYS/Downloads/temp.txt"), temp1("C:/Users/CYS/Downloads/temp1.txt"), temp2("C:/Users/CYS/Downloads/temp2.txt");
