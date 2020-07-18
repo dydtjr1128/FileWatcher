@@ -14,7 +14,7 @@ FileWatcher is simple file/dir change detection that based c++17
  - Support relative/absolute path.
  - Very easy to use & simple. 
 
-### How to use
+## How to use
 
 1. Include "FileWatcher.h"
 2. Create FileWatcher object(watcher::FileWatchar fileWatchar;)
@@ -22,7 +22,7 @@ FileWatcher is simple file/dir change detection that based c++17
 4. Call FileWatcher's start function
 5. Even after you call the "start" function, you can register.
 
-### Sample code 
+## Sample code 
 
 ```cpp
 #include <iostream>
@@ -125,6 +125,6 @@ int main() {
 }
 ```
 
-### sample image
+## sample image
 
 ![sample](./img/sample.png)
