@@ -4,10 +4,12 @@
 ![license](https://img.shields.io/github/license/dydtjr1128/FileWatcher)
 
 # FileWatcher
-FileWatcher is simple file/dir change detection that based c++17
+FileWatcher is simple file/dir change detection that based c++17.
+
+This can easily detect the creation/deletion/modification of files/folders.
 
 ## Feature
- - File&Directory change detection (Directory only support inner file create/remove -> Modified status for dir)
+ - File & Directory change detection (Directory only support inner file create/remove -> Modified status for dir)
  - Cross platform.
  - Thread safe.
  - 3 File status(Created, Modified, Erased).
