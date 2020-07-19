@@ -57,11 +57,10 @@ void writeData(std::filesystem::path path) {
 
 int main() {
 
-
 	watcher::FileWatchar fileWatchar;
 
-	std::filesystem::path temp("C:/Users/CYS/Downloads/temp.txt"), temp1("C:/Users/CYS/Downloads/temp1.txt"), temp2("C:/Users/CYS/Downloads/temp2.txt");
-
+	std::filesystem::path temp("C:/example/temp.txt"), temp1("C:/example/temp1.txt"), temp2("C:/example/temp2.txt");
+	std::filesystem::create_directories(temp.parent_path());
 	std::filesystem::remove_all(temp);
 	std::filesystem::remove_all(temp1);
 	std::filesystem::remove_all(temp2);	
@@ -90,11 +89,9 @@ int main() {
 	fileWatchar.removePath(temp);
 	writeData(temp); // not watching
 
-	std::filesystem::remove_all(temp);
-	std::filesystem::remove_all(temp1);
-	std::filesystem::remove_all(temp2);
-
 	//fileWatchar.stop(); // not essential
+	std::filesystem::remove_all(temp.parent_path());
+	std::filesystem::remove(temp.parent_path());
 
 	std::this_thread::sleep_for(1000s); // Do something
 }
