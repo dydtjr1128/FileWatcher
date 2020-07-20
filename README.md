@@ -12,7 +12,7 @@ This can easily detect the creation/deletion/modification of files/folders.
  - File & Directory change detection (Directory only support inner file create/remove -> Modified status for dir)
  - Cross platform.
  - Thread safe.
- - 3 File status(Created, Modified, Erased).
+ - Support 3 File status. -> Created, Modified, Erased
  - Support relative/absolute path.
  - Very easy to use & simple. 
 
