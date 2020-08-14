@@ -19,7 +19,7 @@ This can easily detect the creation/deletion/modification of files/folders.
 ## How to use
 
 1. Include "FileWatcher.h"
-2. Create FileWatcher object(watcher::FileWatchar fileWatchar;)
+2. Create FileWatcher object(watcher::FileWatchar fileWatchar)
 3. Register file path with each path callback(Callback is not essential. You can use global callback)
 4. Call FileWatcher's start function
 5. Even after you call the "start" function, you can register.
