@@ -1,8 +1,6 @@
-
 ![issues](https://img.shields.io/github/issues/dydtjr1128/FileWatcher)
 ![forks](https://img.shields.io/github/forks/dydtjr1128/FileWatcher)
 ![stars](https://img.shields.io/github/stars/dydtjr1128/FileWatcher)
-![license](https://img.shields.io/github/license/dydtjr1128/FileWatcher)
 
 # FileWatcher
 FileWatcher is simple file/dir change detection that based c++17.
